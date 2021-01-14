@@ -3,9 +3,9 @@ Python client for Nakama's server
 
 # WIP
 
-- [ ] GET /v2/console/account
+- [X] GET /v2/console/account
 - [ ] DELETE /v2/console/account
-- [ ] GET /v2/console/account/{id}
+- [X] GET /v2/console/account/{id}
 - [ ] DELETE /v2/console/account/{id}
 - [ ] POST /v2/console/account/{id}
 - [ ] POST /v2/console/account/{id}/ban

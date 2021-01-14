@@ -1,3 +1,4 @@
+import collections
 import enum
 import json
 import urllib.request
@@ -6,25 +7,32 @@ import urllib.request
 DEFAULT_VERSION = "v2"
 
 
+ApiResponse = collections.namedtuple("ApiResponse", ["payload", "status_code"])
+
+
 class HttpMethods(enum.Enum):
     GET = "GET"
     POST = "POST"
 
 
 class HttpClient:
-    def _request(self, url, data=None, headers=None, method=HttpMethods.GET):
+    def _request(
+        self, url, data=None, headers=None, method=HttpMethods.GET
+    ) -> ApiResponse:
         headers = headers or {}
         data = data or {}
 
-        req = urllib.request.Request(url, json.dumps(data).encode(), headers, method=method.value)
+        req = urllib.request.Request(
+            url, json.dumps(data).encode(), headers, method=method.value
+        )
         res = urllib.request.urlopen(req)
         payload = json.loads(res.read().decode())
-        return payload, res.code
+        return ApiResponse(payload, res.code)
 
-    def get(self, url, headers=None):
+    def get(self, url, headers=None) -> ApiResponse:
         return self._request(url, headers=headers, method=HttpMethods.GET)
 
-    def post(self, url, data=None, headers=None):
+    def post(self, url, data=None, headers=None) -> ApiResponse:
         return self._request(url, data, headers=headers, method=HttpMethods.POST)
 
 
@@ -37,19 +45,26 @@ class NakamaConsoleClient:
         self.version = kwargs.get("version", DEFAULT_VERSION)
         self.token = None
         self.http_client = HttpClient()
+        self.scheme = "https" if self.ssl else "http"
 
     def authenticate(self, username: str, password: str) -> str:
         data = {"username": username, "password": password}
-        payload, status_code = self.http_client.post(
-            f"http://{self.host}:{self.port}/{self.version}/console/authenticate",
+        response = self.http_client.post(
+            f"{self.scheme}://{self.host}:{self.port}/{self.version}/console/authenticate",
             data,
         )
-        self.token = payload["token"]
-        return self.token
+        self.token = response.payload["token"]
+        return response
 
-    def config(self):
-        payload, status_code = self.http_client.get(
-            f"http://{self.host}:{self.port}/{self.version}/console/config",
+    def get_config(self) -> ApiResponse:
+        return self.http_client.get(
+            f"{self.scheme}://{self.host}:{self.port}/{self.version}/console/config",
             headers={"Authorization": f"Bearer {self.token}"},
         )
-        return payload
+
+    def get_account(self, user_id: str = None):
+        url = f"{self.scheme}://{self.host}:{self.port}/{self.version}/console/account"
+        if user_id:
+            url += f"/{user_id}"
+
+        return self.http_client.get(url, headers={"Authorization": f"Bearer {self.token}"})
