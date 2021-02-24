@@ -46,6 +46,6 @@ Python client for Nakama's server
 - [ ] DELETE /v2/console/storage/{collection}/{key}/{userId}
 - [ ] PUT /v2/console/storage/{collection}/{key}/{userId}
 - [ ] DELETE /v2/console/storage/{collection}/{key}/{userId}/{version}
-- [ ] GET /v2/console/user
-- [ ] DELETE /v2/console/user
-- [ ] POST /v2/console/user
+- [X] GET /v2/console/user
+- [X] DELETE /v2/console/user
+- [X] POST /v2/console/user
