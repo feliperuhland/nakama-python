@@ -34,6 +34,13 @@ def test_ncc_config(client):
     assert "config" in response.payload
 
 
+def test_ncc_status(client):
+    response = client.status.get()
+    assert "nodes" in response.payload
+    assert "timestamp" in response.payload
+    assert "nakama1" in response.payload.get("nodes", [])[0].get("name")
+
+
 def test_get_account(client):
     response = client.accounts.get()
     assert response.payload["users"]

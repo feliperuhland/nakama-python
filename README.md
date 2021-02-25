@@ -38,7 +38,7 @@ Python client for Nakama's server
 - [ ] GET /v2/console/match
 - [ ] GET /v2/console/match/{id}/state
 - [ ] GET /v2/console/runtime
-- [ ] GET /v2/console/status
+- [X] GET /v2/console/status
 - [ ] GET /v2/console/storage
 - [ ] DELETE /v2/console/storage
 - [ ] GET /v2/console/storage/collections
