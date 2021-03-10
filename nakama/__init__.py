@@ -82,6 +82,17 @@ class ConfigClient:
         )
 
 
+class EndpointsClient:
+    def __init__(self, http_client: HttpClient, nakama_config: NakamaConfig):
+        self.http_client = http_client
+        self.nakama_config = nakama_config
+
+    def get(self) -> ApiResponse:
+        return self.http_client.get(
+            self.nakama_config.build_url("console/api/endpoints"), self.nakama_config.auth_header
+        )
+
+
 class StatusClient:
     def __init__(self, http_client: HttpClient, nakama_config: NakamaConfig):
         self.http_client = http_client
@@ -131,6 +142,10 @@ class NakamaConsoleClient:
     @property
     def config(self):
         return ConfigClient(self.http_client, self.nakama_config)
+
+    @property
+    def endpoints(self):
+        return EndpointsClient(self.http_client, self.nakama_config)
 
     @property
     def status(self):

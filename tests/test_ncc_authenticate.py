@@ -78,3 +78,10 @@ def test_delete_console_user(client):
     response = client.users.remove(username)
     assert "User not found" == response.payload.get("message")
     assert http.HTTPStatus.BAD_REQUEST == response.status_code
+
+
+def test_get_console_endpoints(client):
+    response = client.endpoints.get()
+    assert http.HTTPStatus.OK == response.status_code
+    assert "endpoints" in response.payload
+    assert "rpc_endpoints" in response.payload
