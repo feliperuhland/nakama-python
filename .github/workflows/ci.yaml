@@ -7,7 +7,34 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, 3.10]
+        python-version: [3.6, 3.7, 3.8, 3.9]
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: postgres_db
+          POSTGRES_PASSWORD: postgres_password
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres_user
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      nakama:
+        image: heroiclabs/nakama:3.1.1
+        ports:
+          - 7350:7350
+          - 7351:7351
+        entrypoint:
+          - "/bin/sh"
+          - "-ecx"
+          - >
+              /nakama/nakama migrate up --database.address postgres:postgres_user@postgres:5432/postgres_db&&
+              exec /nakama/nakama --name nakama1 --database.address postgres:postgres_user@postgres:5432/postgres_db--logger.level DEBUG --session.token_expiry_sec 7200
 
     steps:
     - uses: actions/checkout@v2
