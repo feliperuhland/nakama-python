@@ -1,4 +1,8 @@
+import collections
 import enum
+
+
+ApiResponse = collections.namedtuple("ApiResponse", ["payload", "status_code"])
 
 
 class HttpMethods(enum.Enum):

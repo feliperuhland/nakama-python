@@ -2,7 +2,7 @@ import http
 
 import pytest
 
-import nakama
+import nakama.api
 import nakama.types
 
 
@@ -14,11 +14,11 @@ def clean_user_data(client):
 
 @pytest.fixture
 def noauth_client():
-    return nakama.NakamaConsoleClient(server_key="defaultkey", host="127.0.0.1", ssl=False)
+    return nakama.api.NakamaConsoleApi(server_key="defaultkey", host="127.0.0.1", ssl=False)
 
 
 @pytest.fixture
-def client(noauth_client: nakama.NakamaConsoleClient):
+def client(noauth_client: nakama.api.NakamaConsoleApi):
     noauth_client.authenticate("admin", "password")
     clean_user_data(noauth_client)
     return noauth_client
@@ -85,3 +85,14 @@ def test_get_console_endpoints(client):
     assert http.HTTPStatus.OK == response.status_code
     assert "endpoints" in response.payload
     assert "rpc_endpoints" in response.payload
+
+
+def test_get_console_runtime(client):
+    response = client.runtime.get()
+    assert http.HTTPStatus.OK == response.status_code
+    assert "go_rpc_functions" in response.payload
+    assert "go_modules" in response.payload
+    assert "lua_rpc_functions" in response.payload
+    assert "lua_modules" in response.payload
+    assert "js_rpc_functions" in response.payload
+    assert "js_modules" in response.payload

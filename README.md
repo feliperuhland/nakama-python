@@ -26,7 +26,7 @@ Python client for Nakama's server
 - [ ] POST /v2/console/account/{id}/unlink/steam
 - [ ] GET /v2/console/account/{id}/wallet
 - [ ] DELETE /v2/console/account/{id}/wallet/{walletId}
-- [ ] GET /v2/console/api/endpoints
+- [X] GET /v2/console/api/endpoints
 - [ ] POST /v2/console/api/endpoints/rpc/{method}
 - [ ] POST /v2/console/api/endpoints/{method}
 - [X] POST /v2/console/authenticate
@@ -37,7 +37,7 @@ Python client for Nakama's server
 - [ ] GET /v2/console/leaderboard/{leaderboardId}/records
 - [ ] GET /v2/console/match
 - [ ] GET /v2/console/match/{id}/state
-- [ ] GET /v2/console/runtime
+- [X] GET /v2/console/runtime
 - [X] GET /v2/console/status
 - [ ] GET /v2/console/storage
 - [ ] DELETE /v2/console/storage
