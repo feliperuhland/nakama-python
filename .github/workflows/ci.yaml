@@ -30,7 +30,7 @@ jobs:
           - 7350:7350
           - 7351:7351
         volumes:
-          - .github/entrypoint.sh:/tmp/entrypoint.sh
+          - /home/runner/work/_temp/_github_home/.github/entrypoint.sh:/tmp/entrypoint.sh
         options: >-
           --entrypoint /tmp/entrypoint.sh
 
