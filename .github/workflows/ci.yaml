@@ -30,7 +30,7 @@ jobs:
           - 7350:7350
           - 7351:7351
         options: >-
-          --entrypoint /tmp/entrypoint.sh
+          --entrypoint pwd
           -v ${{ github.workspace }}/.github/entrypoint.sh:/tmp/entrypoint.sh
 
     steps:
