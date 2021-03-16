@@ -29,10 +29,9 @@ jobs:
         ports:
           - 7350:7350
           - 7351:7351
-        volumes:
-          - /home/runner/work/_temp/_github_home/.github/entrypoint.sh:/tmp/entrypoint.sh
         options: >-
           --entrypoint /tmp/entrypoint.sh
+          -v ${{ github.workspace }}/.github/entrypoint.sh:/tmp/entrypoint.sh
 
     steps:
     - uses: actions/checkout@v2
